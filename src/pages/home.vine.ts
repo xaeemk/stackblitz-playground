@@ -6,7 +6,7 @@ interface CounterProps {
 }
 
 function Counter(props: CounterProps) {
-  const { count, increment, decrement } = useCounterStore()
+  const counter = useCounterStore()
 
   vineStyle.scoped(`
     .action-btn {
@@ -20,18 +20,18 @@ function Counter(props: CounterProps) {
 
   return vine`
     <div class="counter h-full flex flex-col justify-center items-center mb-4">
-      <p class="title text-lg mb-4">Count: {{ count }}</p>
+      <p class="title text-lg mb-4">Count: {{ counter.count }}</p>
 
       <div class="actions flex gap-2">
         <button
           class="action-btn rounded-md transition-colors hover:bg-[#88888828] active:bg-[#88888850]"
-          @click="increment(step)"
+          @click="counter.increment(step)"
         >
           Increment(+{{ step }})
         </button>
         <button
           class="action-btn rounded-md transition-colors hover:bg-[#88888828] active:bg-[#88888850]"
-          @click="decrement(step)"
+          @click="counter.decrement(step)"
         >
           Decrement(-{{ step }})
         </button>
