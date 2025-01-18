@@ -6,7 +6,7 @@ interface CounterProps {
 }
 
 function Counter(props: CounterProps) {
-  const { counter, increment, decrement } = useCounterStore()
+  const { count, increment, decrement } = useCounterStore()
 
   vineStyle.scoped(`
     .action-btn {
