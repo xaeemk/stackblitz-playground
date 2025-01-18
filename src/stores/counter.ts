@@ -7,9 +7,13 @@ export const useCounterStore = defineStore('counter', () => {
   function increment(step = 1) {
     counter.value += step
   }
+  function decrement(step = 1) {
+    counter.value -= step
+  }
 
   return {
     counter,
     increment,
+    decrement,
   }
 })

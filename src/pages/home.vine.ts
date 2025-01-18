@@ -1,11 +1,12 @@
 import { ref } from 'vue'
+import { useCounterStore } from '../stores/counter'
 
 interface CounterProps {
   step: number
 }
 
 function Counter(props: CounterProps) {
-  const count = ref(0)
+  const { counter, increment, decrement } = useCounterStore()
 
   vineStyle.scoped(`
     .action-btn {
@@ -24,13 +25,13 @@ function Counter(props: CounterProps) {
       <div class="actions flex gap-2">
         <button
           class="action-btn rounded-md transition-colors hover:bg-[#88888828] active:bg-[#88888850]"
-          @click="count += step"
+          @click="increment(step)"
         >
           Increment(+{{ step }})
         </button>
         <button
           class="action-btn rounded-md transition-colors hover:bg-[#88888828] active:bg-[#88888850]"
-          @click="count -= step"
+          @click="decrement(step)"
         >
           Decrement(-{{ step }})
         </button>
