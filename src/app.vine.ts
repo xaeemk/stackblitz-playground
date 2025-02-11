@@ -32,7 +32,7 @@ export function App() {
         </nav>
       </header>
 
-      <main class="main flex h-full">
+      <main class="main flex-col mt-10 md:mt-0 md:flex h-full">
         <div
           class="slogan flex items-center justify-center flex-col px-4 pb-4 text-lg mx-auto max-w-content"
         >
