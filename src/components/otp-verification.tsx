@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, CheckCircle2 } from "lucide-react"
-import { sendOTP, checkOTP } from "@/app/actions"
 
 interface OtpVerificationProps {
   purpose: "registration" | "checkin" | "checkout"
@@ -23,7 +22,7 @@ export function OtpVerification({ purpose, contactInfo, onVerified }: OtpVerific
   useEffect(() => {
     // Send OTP when component mounts
     sendOtpToUser()
-  }, [])
+  }, [sendOtpToUser])
 
   useEffect(() => {
     if (timeLeft > 0 && !isVerified) {
@@ -32,31 +31,31 @@ export function OtpVerification({ purpose, contactInfo, onVerified }: OtpVerific
     }
   }, [timeLeft, isVerified])
 
-  const sendOtpToUser = async () => {
-    if (!contactInfo) return
+  const sendOtpToUser = useCallback(async () => {
+    if (!contactInfo) return;
 
-    setIsSending(true)
-    setError("")
-    setSmsStatus("pending")
+    setIsSending(true);
+    setError("");
+    setSmsStatus("pending");
 
     try {
-      const response = await sendOTP(contactInfo)
+      const response = await sendOTP(contactInfo);
 
       if (!response.success) {
-        setError(response.error || "Failed to send OTP. Please try again.")
-        setSmsStatus("failed")
+        setError(response.error || "Failed to send OTP. Please try again.");
+        setSmsStatus("failed");
       } else {
-        setTimeLeft(30)
-        setSmsStatus("sent")
+        setTimeLeft(30);
+        setSmsStatus("sent");
       }
     } catch (err) {
-      setError("Failed to send OTP. Please try again.")
-      setSmsStatus("failed")
-      console.error(err)
+      setError("Failed to send OTP. Please try again.");
+      setSmsStatus("failed");
+      console.error(err);
     } finally {
-      setIsSending(false)
+      setIsSending(false);
     }
-  }
+  }, [contactInfo, sendOTP]);
 
   const handleVerify = async () => {
     if (otp.length !== 6) {
@@ -108,7 +107,7 @@ export function OtpVerification({ purpose, contactInfo, onVerified }: OtpVerific
       <p className="text-center text-sm text-gray-600">
         {smsStatus === "sent" ? (
           <>
-            We've sent a verification code to {contactInfo} for your {getPurposeText()}.
+            We&apos;ve sent a verification code to {contactInfo} for your {getPurposeText()}.
           </>
         ) : smsStatus === "failed" ? (
           <>Failed to send SMS. Please use the code displayed in the console.</>
@@ -151,7 +150,7 @@ export function OtpVerification({ purpose, contactInfo, onVerified }: OtpVerific
           <div className="text-center mt-4">
             <p className="text-sm text-gray-500">
               {timeLeft > 0 ? (
-                <>Didn't receive the code? Resend in {timeLeft}s</>
+                <>Didn&apos;t receive the code? Resend in {timeLeft}s</>
               ) : (
                 <Button variant="link" className="p-0 h-auto text-sm" onClick={handleResend} disabled={isSending}>
                   {isSending ? "Sending..." : "Resend OTP"}

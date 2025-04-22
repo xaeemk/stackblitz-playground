@@ -59,7 +59,7 @@ export function BookingConfirmationStep({ flight, provider, onConfirm, onBack }:
       </CardHeader>
       <CardContent className="space-y-4">
         <p>
-          You've selected a flight from <strong>{origin}</strong> to <strong>{destination}</strong>
+          You&apos;ve selected a flight from <strong>{origin}</strong> to <strong>{destination}</strong>
         </p>
 
         <p className="text-sm text-gray-600">{formatFlightDetails(flight, provider)}</p>

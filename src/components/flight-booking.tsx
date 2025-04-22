@@ -11,8 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { saveFlightBooking } from "@/app/flight-actions"
-import type { UserData } from "@/app/page"
+import type { UserData } from "@/lib/types"
 
 const formSchema = z.object({
   firstName: z.string().min(2, { message: "First name must be at least 2 characters." }),
@@ -22,7 +21,7 @@ const formSchema = z.object({
   dateOfBirth: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Please enter a valid date (YYYY-MM-DD)." }),
   nationality: z.string().min(2, { message: "Please enter your nationality." }),
   cardNumber: z.string().regex(/^\d{16}$/, { message: "Please enter a valid 16-digit card number." }),
-  cardExpiry: z.string().regex(/^\d{2}\\/\\d{2}$/, { message: "Please enter a valid expiry date (MM/YY)." }),
+  cardExpiry: z.string().regex(/^\d{2}\/\d{2}$/, { message: "Please enter a valid expiry date (MM/YY)." }),
   cardCvc: z.string().regex(/^\d{3,4}$/, { message: "Please enter a valid CVC code." }),
 })
 

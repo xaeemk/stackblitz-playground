@@ -1,4 +1,3 @@
-import VineLogo from '@/assets/vine-logo.png'
 
 export function App() {
   vineStyle.scoped(`

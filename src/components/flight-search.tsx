@@ -28,9 +28,36 @@ interface FlightSearchProps {
   onSearchResults: (results: any) => void
 }
 
-export function FlightSearch({ onSearchResults }: FlightSearchProps) {
+interface FlightSearchProps {
+  onSearchResults: (results: any) => void
+  setSelectedFlight: (flight: any) => void
+  setSelectedProvider: (provider: "amadeus" | "duffel") => void
+}
+
+export function FlightSearch({ onSearchResults, setSelectedFlight, setSelectedProvider }: FlightSearchProps) {
   const [isSearching, setIsSearching] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  const handleSearchResults = (results: any) => {
+    if (!results || (results.amadeus?.data?.length === 0 && results.duffel?.data?.offers?.length === 0)) {
+      console.warn("No valid flights found", results)
+      return
+    }
+
+    // Select first available result from Duffel or Amadeus
+    const selectedDuffel = results.duffel?.data?.offers?.[0]
+    const selectedAmadeus = results.amadeus?.data?.[0]
+
+    if (selectedDuffel) {
+      setSelectedFlight(selectedDuffel)
+      setSelectedProvider("duffel")
+    } else if (selectedAmadeus) {
+      setSelectedFlight(selectedAmadeus)
+      setSelectedProvider("amadeus")
+    } else {
+      console.warn("No selectable flight found in response")
+    }
+  }
 
   const form = useForm<FlightSearchFormValues>({
     resolver: zodResolver(formSchema),
@@ -64,7 +91,7 @@ export function FlightSearch({ onSearchResults }: FlightSearchProps) {
       if (response.error) {
         setError(response.error)
       } else {
-        onSearchResults(response)
+        handleSearchResults(response)
       }
     } catch (err) {
       setError("An error occurred while searching for flights. Please try again.")
@@ -79,7 +106,7 @@ export function FlightSearch({ onSearchResults }: FlightSearchProps) {
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Find Your Perfect Flight</h2>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={form.control}
@@ -292,5 +319,5 @@ export function FlightSearch({ onSearchResults }: FlightSearchProps) {
         </form>
       </Form>
     </div>
-  )
+  );
 }

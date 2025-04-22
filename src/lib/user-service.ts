@@ -1,6 +1,6 @@
 import redis from "./redis"
 import { v4 as uuidv4 } from "uuid"
-import type { UserData } from "@/app/page"
+import type { UserData } from "@/lib/types"
 
 // Store for development OTPs (not for production use)
 const devOtps: Record<string, string> = {}
@@ -16,7 +16,28 @@ export async function createUser(userData: UserData): Promise<string> {
 
 export async function getUserById(userId: string): Promise<UserData | null> {
   const userData = await redis.hgetall(`user:${userId}`)
-  return (userData as UserData) || null
+
+  if (!userData) {
+    return null;
+  }
+
+  const { name, email, phone, userId: id, checkInTime, checkOutTime } = userData;
+
+  if (!name || !email || !phone) {
+    console.error("Incomplete user data retrieved from Redis:", userData);
+    return null;
+  }
+
+  const typedUserData: UserData = {
+    name: name as string,
+    email: email as string,
+    phone: phone as string,
+    userId: id as string,
+    checkInTime: checkInTime as string | undefined,
+    checkOutTime: checkOutTime as string | undefined,
+  };
+
+  return typedUserData;
 }
 
 export async function getUserByPhone(phone: string): Promise<UserData | null> {

@@ -151,11 +151,17 @@ export function FlightStatusTracker() {
 
   // Render flight status
   const renderFlightStatus = () => {
-    if (!flightStatus) return null
+    if (!flightStatus) {
+      return (
+        <div className="text-center text-gray-500 py-10">
+          No flight data available. Please search again.
+        </div>
+      )
+    }
 
     // Use optional chaining and default values for safety
-    const departureTime = flightStatus.scheduledDeparture ? new Date(flightStatus.scheduledDeparture) : new Date()
-    const arrivalTime = flightStatus.scheduledArrival ? new Date(flightStatus.scheduledArrival) : new Date()
+    const departureTime = flightStatus?.scheduledDeparture ? new Date(flightStatus.scheduledDeparture) : null
+    const arrivalTime = flightStatus?.scheduledArrival ? new Date(flightStatus.scheduledArrival) : null
 
     return (
       <div className="space-y-6">
@@ -191,9 +197,9 @@ export function FlightStatusTracker() {
           <CardContent className="pt-6">
             <div className="flex justify-between items-start mb-8">
               <div className="text-center">
-                <div className="text-2xl font-bold">{format(departureTime, "h:mm a")}</div>
-                <div className="text-lg font-medium">{flightStatus.origin.code}</div>
-                <div className="text-sm text-gray-500">{flightStatus.origin.city}</div>
+                <div className="text-2xl font-bold">{departureTime ? format(departureTime, "h:mm a") : "TBD"}</div>
+                <div className="text-lg font-medium">{flightStatus?.origin?.code}</div>
+                <div className="text-sm text-gray-500">{flightStatus?.origin?.city}</div>
                 {flightStatus.terminal && flightStatus.gate && (
                   <div className="text-sm mt-2">
                     Terminal {flightStatus.terminal}, Gate {flightStatus.gate}
@@ -223,9 +229,9 @@ export function FlightStatusTracker() {
               </div>
 
               <div className="text-center">
-                <div className="text-2xl font-bold">{format(arrivalTime, "h:mm a")}</div>
-                <div className="text-lg font-medium">{flightStatus.destination.code}</div>
-                <div className="text-sm text-gray-500">{flightStatus.destination.city}</div>
+                <div className="text-2xl font-bold">{arrivalTime ? format(arrivalTime, "h:mm a") : "TBD"}</div>
+                <div className="text-lg font-medium">{flightStatus?.destination?.code}</div>
+                <div className="text-sm text-gray-500">{flightStatus?.destination?.city}</div>
               </div>
             </div>
 

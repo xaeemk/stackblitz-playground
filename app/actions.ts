@@ -10,7 +10,7 @@ import {
   generateOTP,
 } from "@/lib/user-service"
 import { sendSMS } from "@/lib/twilio"
-import type { UserData } from "@/app/page"
+import type { UserData } from "@/lib/types"
 
 export async function registerUser(userData: UserData): Promise<{ userId: string }> {
   try {
