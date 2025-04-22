@@ -1,33 +1,36 @@
 {
-  "name": "vue-vine-playground",
-  "type": "module",
-  "version": "0.0.1",
+  "name": "customer-onboarding",
+  "version": "0.1.0",
   "private": true,
-  "description": "A vue-vine app created with create-vue-vine",
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check only-build",
-    "preview": "vite preview",
-    "lint": "eslint src --cache",
-    "lint:fix": "eslint src --cache --fix",
-    "type-check": "vue-vine-tsc --noEmit --composite false",
-    "only-build": "vite build"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "pinia": "^2.3.0",
-    "vue": "^3.5.13",
-    "vue-router": "^4.4.5"
+    "@hookform/resolvers": "^3.3.2",
+    "@upstash/redis": "^1.25.1",
+    "date-fns": "^2.30.0",
+    "lucide-react": "^0.294.0",
+    "next": "14.0.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hook-form": "^7.55.0",
+    "twilio": "^4.19.3",
+    "uuid": "^9.0.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.9.2",
-    "@types/node": "^20.17.6",
-    "@vue-vine/eslint-config": "^0.2.13",
-    "eslint": "^9.15.0",
-    "npm-run-all": "^4.1.5",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.6.3",
-    "vite": "^6.0.0",
-    "vue-vine": "^0.2.5",
-    "vue-vine-tsc": "^0.1.5"
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/uuid": "^9.0.7",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
   }
 }
